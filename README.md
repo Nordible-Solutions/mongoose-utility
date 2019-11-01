@@ -1,17 +1,17 @@
-Extremely basic skeleton code of a Node.js Typescript project with Lint support
+Utility functions for MongoDB Atlas with Node.js Typescript setup
 
 ## Contributions welcome!
 
-[Open a new PR](https://github.com/nordible/typescript-boilerplate/pulls) here on GitHub.
+[Open a new PR](https://github.com/nordible/mongodb-utility/pulls) here on GitHub.
 
 ## Run locally
-- Run `git clone https://github.com/nordible/typescript-boilerplate.git` this project
-- Run `cd typescript-boilerplate/` to this project
+- Run `git clone https://github.com/nordible/mongodb-utility.git` this project
+- Run `cd mongodb-utility/` to this project
 - Run `npm run dev` to start the project on local machine
 
 ## Bugs and Issues
 
-Have a bug or an issue? [Open a new issue](https://github.com/nordible/typescript-boilerplate/issues) here on GitHub.
+Have a bug or an issue? [Open a new issue](https://github.com/nordible/mongodb-utility/issues) here on GitHub.
 
 ## License
 
