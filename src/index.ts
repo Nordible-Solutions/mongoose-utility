@@ -18,6 +18,11 @@ export const generateConnectionString = () => {
 export const connectToTheDatabase = (mongooseInstance: any) => {
 
     let connString = generateConnectionString();
+    if (mongooseInstance.connection.readyState !== 1) {
+        console.log('Mongoose already connected');
+        return mongooseInstance.connection;
+    }
+
     mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
 
     mongooseInstance.connection.on('open', function () {
