@@ -19,29 +19,29 @@ export const connectToTheDatabase = (mongooseInstance: any) => {
 
     let connString = generateConnectionString();
     if (mongooseInstance.connection.readyState === 1) {
-        console.log('Mongoose already connected');
+        console.log('mongodb-utility: Mongoose already connected');
     } else {
         mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
 
         mongooseInstance.connection.on('open', function () {
-            console.log('Mongoose default connection open');
+            console.log('mongodb-utility: Mongoose default connection open');
         })
 
         mongooseInstance.connection.on('connected', function () {
-            console.log('Mongoose default connection connected')
+            console.log('mongodb-utility: Mongoose default connection connected')
         })
 
         mongooseInstance.connection.on('error', function (err: any) {
-            console.log('Mongoose default connection error: ' + err)
+            console.log('mongodb-utility: Mongoose default connection error: ' + err)
         })
 
         mongooseInstance.connection.on('disconnected', function () {
-            console.log('Mongoose default connection disconnected')
+            console.log('mongodb-utility: Mongoose default connection disconnected')
         })
 
         process.on('SIGINT', function () {
             mongooseInstance.connection.close(function () {
-                console.log('Mongoose default connection closed through app termination')
+                console.log('mongodb-utility: Mongoose default connection closed through app termination')
                 process.exit(0)
             })
         });
