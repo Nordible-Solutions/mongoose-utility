@@ -1,6 +1,6 @@
 {
   "name": "mongodb-utility",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Utility functions for MongoDB Atlas with Node.js Typescript setup",
   "main": "dist/index.js",
   "scripts": {
