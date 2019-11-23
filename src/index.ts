@@ -11,42 +11,44 @@ export const generateConnectionString = () => {
     return `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`;
 }
 
+const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
+
 /**
  * Connect to the MongoDB database
  * @param mongooseInstance mongoose instance to connect to
+ * @param enableLogging flag for enabling/disabling logging
  */
-export const connectToTheDatabase = (mongooseInstance: any) => {
+export const connectToTheDatabase = (mongooseInstance: any, enableLogging = false) => {
 
     let connString = generateConnectionString();
     if (mongooseInstance.connection.readyState === 1) {
-        console.log('mongodb-utility: Mongoose already connected');
+        enableLogging && console.log(`Mongoose already connected ${copyright}`);
     } else {
         mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
 
         mongooseInstance.connection.on('open', function () {
-            console.log('mongodb-utility: Mongoose default connection open');
+            enableLogging && console.log(`Mongoose default connection open ${copyright}`);
         })
 
         mongooseInstance.connection.on('connected', function () {
-            console.log('mongodb-utility: Mongoose default connection connected')
+            enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
         })
 
         mongooseInstance.connection.on('error', function (err: any) {
-            console.log('mongodb-utility: Mongoose default connection error: ' + err)
+            enableLogging && console.log(`Mongoose default connection error: ${err} ${copyright}`);
         })
 
         mongooseInstance.connection.on('disconnected', function () {
-            console.log('mongodb-utility: Mongoose default connection disconnected')
+            enableLogging && console.log(`Mongoose default connection disconnected ${copyright}`);
         })
 
         process.on('SIGINT', function () {
             mongooseInstance.connection.close(function () {
-                console.log('mongodb-utility: Mongoose default connection closed through app termination')
-                process.exit(0)
+                enableLogging && console.log(`Mongoose default connection closed through app termination ${copyright}`);
+                process.exit(0);
             })
         });
     }
-
 
     return mongooseInstance.connection;
 }
@@ -54,10 +56,16 @@ export const connectToTheDatabase = (mongooseInstance: any) => {
 /**
  * Get all the documents in a collection
  * @param collection instance of the collection
+ * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs = (collection: Collection) => {
-    collection.find(function (ex: any, docs: any) {
-        if (ex) throw ex;
+export const getAllDocs = (collection: Collection, enableLogging = false) => {
+    collection.find(function (err: any, docs: any) {
+        if (err) {
+            enableLogging && console.log(`An error occured while getting all document from collection ${collection} 
+            Error stack: ${err} ${copyright}`);
+            return null;
+        }
+        enableLogging && console.log(`Documents fetched from ${collection} are ${docs} ${copyright}`);
         return docs;
     });
 }
@@ -65,19 +73,28 @@ export const getAllDocs = (collection: Collection) => {
 /**
  * Drops a collection by it's name
  * @param collection name of the collection
+ * @param enableLogging flag for enabling/disabling logging
  */
-export const dropCollection = (collection: string) => {
+export const dropCollection = (collection: string, enableLogging = false) => {
     mongoose.connections[0].dropCollection(collection)
-        .then((dropResult: any) => dropResult)
-        .catch((ex: any) => ex);
+        .then((dropResult: any) => {
+            enableLogging && console.log(`${collection} successfully dropped. Info: ${dropResult} ${copyright}`);
+            return true;
+        })
+        .catch((err: any) => {
+            enableLogging && console.log(`An error occured while dropping collection ${collection} 
+            Error stack: ${err} ${copyright}`);
+            return false;
+        });
 }
 
 /**
  * Insert many documents to MongoDb instance
  * @param collection The name of the collection
  * @param docs The documents which needs to be inserted
+ * @param enableLogging flag for enabling/disabling logging
  */
-export const insertMany = (collection: Collection, docs: any) => {
+export const insertMany = (collection: Collection, docs: any, enableLogging = false) => {
     collection.insertMany(docs, function () {
     });
 }

@@ -11,19 +11,23 @@ Environment variables `MONGO_USER`, `MONGO_PASSWORD`, `MONGO_PATH` are needed to
 **connectToTheDatabase()**
 Connect to the MongoDB database
 - *@param* `mongooseInstance` mongoose instance to connect to
+- *@param* `enableLogging` flag for enabling/disabling logging
 
 **getAllDocs()**
 Get all the documents in a collection
 - *@param* `collection` instance of the collection
+- *@param* `enableLogging` flag for enabling/disabling logging
 
 **dropCollection()**
 Drops a collection by it's name
 - *@param* `collection` name of the collection
+- *@param* `enableLogging` flag for enabling/disabling logging
 
 **insertMany()**
 Insert many documents to MongoDb instance
 - *@param* `collection` The name of the collection
 - *@param* `docs` The documents which needs to be inserted
+- *@param* `enableLogging` flag for enabling/disabling logging
 
 ## Contributions welcome!
 
