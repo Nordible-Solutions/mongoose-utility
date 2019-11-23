@@ -15,6 +15,7 @@ Connect to the MongoDB database
 
 **getAllDocs()**
 Get all the documents in a collection
+- *@param* `mongooseInstance` mongoose instance to connect to
 - *@param* `collectionName` instance of the collection
 - *@param* `enableLogging` flag for enabling/disabling logging
 
