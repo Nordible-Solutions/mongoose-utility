@@ -58,15 +58,18 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
  * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs = (collectionName: string, enableLogging = false) => {
-    mongoose.connection.db.collection(collectionName).find(function (err: any, docs: any) {
-        if (err) {
-            enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
-            ${err} ${copyright}`);
-            return null;
-        }
-        enableLogging && console.log(`Documents fetched from ${collectionName} are ${docs} ${copyright}`);
-        return docs;
+export const getAllDocs = (collectionName: string, enableLogging = false): Promise<any> => {
+    return new Promise(() => {
+        mongoose.connection.db.collection(collectionName).find(function (err: any, docs: any) {
+            if (err) {
+                enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
+                ${err} ${copyright}`);
+                return null;
+            }
+            enableLogging && console.log(`Documents fetched from ${collectionName} are ${docs} ${copyright}`);
+            return docs;
+        });
+
     });
 }
 
