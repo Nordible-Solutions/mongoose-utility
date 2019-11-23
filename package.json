@@ -1,18 +1,37 @@
 {
   "name": "mongodb-utility",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Utility functions for MongoDB Atlas with Node.js Typescript setup",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc",
     "dev": "tsc && node dist/index.js"
   },
-  "author": "Nordible <info@nordible.com> (https://nordible.com)",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nordible/mongodb-utility.git"
+  },
   "dependencies": {
     "@types/mongoose": "^5.5.28",
     "@types/node": "^12.12.5",
     "mongoose": "^5.7.7"
   },
-  "homepage": "https://nordible.com/mongodb-utility/"
+  "keywords": [
+    "javascript",
+    "typescript",
+    "mongodb",
+    "mongodb atlas",
+    "utility"
+  ],
+  "author": "Nordible <info@nordible.com> (https://nordible.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nordible/mongodb-utility/issues"
+  },
+  "homepage": "https://nordible.com/mongodb-utility/",
+  "files": [
+    "dist/*"
+  ]
 }

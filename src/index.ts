@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import { Collection } from 'mongoose';
-import { resolve } from 'url';
 
 export const generateConnectionString = () => {
     const {
@@ -13,7 +12,8 @@ export const generateConnectionString = () => {
 }
 
 /**
- * Connect to the database
+ * Connect to the MongoDB database
+ * @param mongooseInstance mongoose instance to connect to
  */
 export const connectToTheDatabase = (mongooseInstance: any) => {
 
@@ -55,8 +55,8 @@ export const connectToTheDatabase = (mongooseInstance: any) => {
  * Get all the documents in a collection
  * @param collection instance of the collection
  */
-export const getAllDocs = async (collection: Collection): Promise<any> => {
-    await collection.find(function (ex: any, docs: any) {
+export const getAllDocs = (collection: Collection) => {
+    collection.find(function (ex: any, docs: any) {
         if (ex) throw ex;
         return docs;
     });
@@ -72,6 +72,11 @@ export const dropCollection = (collection: string) => {
         .catch((ex: any) => ex);
 }
 
+/**
+ * Insert many documents to MongoDb instance
+ * @param collection The name of the collection
+ * @param docs The documents which needs to be inserted
+ */
 export const insertMany = (collection: Collection, docs: any) => {
     collection.insertMany(docs, function () {
     });
