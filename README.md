@@ -32,7 +32,7 @@ Insert many documents to MongoDb instance
 **getCompiledModel()**
 Gives the model of the specific schema with the specified name
 - *@param* `modelName` The name of the model (generally same as the name of the resultant collection)
-- *@param* `modelSchema` The schema of the model
+- *@param* `schemaJSON` The schema of the model
 - *@param* `enableLogging` flag for enabling/disabling logging
 
 ## Contributions welcome!

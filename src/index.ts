@@ -1,5 +1,5 @@
+import { Collection, Schema, Model } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Collection } from 'mongoose';
 
 export const generateConnectionString = () => {
     const {
@@ -102,11 +102,12 @@ export const insertMany = (collection: Collection, docs: any, enableLogging = fa
 /**
  * Gives the model of the specific schema with the specified name
  * @param modelName The name of the model (generally same as the name of the resultant collection)
- * @param modelSchema The schema of the model
+ * @param schemaJSON The schema of the model
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getCompiledModel = (modelName: string, modelSchema: mongoose.Schema<any>, enableLogging = false) => {
-    let compiledModel: mongoose.Model<mongoose.Document, {}>;
+export const getCompiledModel = (modelName: string, schemaJSON: Object, enableLogging = false) => {
+    let modelSchema = new Schema({ schemaJSON });
+    let compiledModel: Model<mongoose.Document, {}>;
     try {
         compiledModel = mongoose.model(modelName, modelSchema);
         enableLogging && console.log(`${modelName} successfully compiled. ${copyright}`);
