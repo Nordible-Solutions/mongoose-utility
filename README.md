@@ -3,8 +3,10 @@ Utility functions for MongoDB Atlas with Node.js Typescript setup
 ## Installation
  
  - Install in your project using `npm i mongodb-utility`
- 
+
 ## Available functions / API
+
+Environment variables `MONGO_USER`, `MONGO_PASSWORD`, `MONGO_PATH` are needed to use this utility.
 
 **connectToTheDatabase()**
 Connect to the MongoDB database
