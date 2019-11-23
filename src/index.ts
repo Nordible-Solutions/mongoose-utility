@@ -55,34 +55,34 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
 
 /**
  * Get all the documents in a collection
- * @param collection instance of the collection
+ * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs = (collection: Collection, enableLogging = false) => {
-    collection.find(function (err: any, docs: any) {
+export const getAllDocs = (collectionName: string, enableLogging = false) => {
+    mongoose.connection.db.collection(collectionName).find(function (err: any, docs: any) {
         if (err) {
-            enableLogging && console.log(`An error occured while getting all document from collection ${collection} 
+            enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
             ${err} ${copyright}`);
             return null;
         }
-        enableLogging && console.log(`Documents fetched from ${collection} are ${docs} ${copyright}`);
+        enableLogging && console.log(`Documents fetched from ${collectionName} are ${docs} ${copyright}`);
         return docs;
     });
 }
 
 /**
  * Drops a collection by it's name
- * @param collection name of the collection
+ * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const dropCollection = (collection: string, enableLogging = false) => {
-    mongoose.connections[0].dropCollection(collection)
+export const dropcollection = (collectionName: string, enableLogging = false) => {
+    mongoose.connection.db.dropCollection(collectionName)
         .then((dropResult: any) => {
-            enableLogging && console.log(`${collection} successfully dropped. Info: ${dropResult} ${copyright}`);
+            enableLogging && console.log(`${collectionName} successfully dropped. Info: ${dropResult} ${copyright}`);
             return true;
         })
         .catch((err: any) => {
-            enableLogging && console.log(`An error occured while dropping collection ${collection} 
+            enableLogging && console.log(`An error occured while dropping collection ${collectionName} 
             ${err} ${copyright}`);
             return false;
         });
@@ -90,12 +90,12 @@ export const dropCollection = (collection: string, enableLogging = false) => {
 
 /**
  * Insert many documents to MongoDb instance
- * @param collection The name of the collection
+ * @param collectionName Name of the collection
  * @param docs The documents which needs to be inserted
  * @param enableLogging flag for enabling/disabling logging
  */
-export const insertMany = (collection: Collection, docs: any, enableLogging = false) => {
-    collection.insertMany(docs, function () {
+export const insertMany = (collectionName: string, docs: any, enableLogging = false) => {
+    mongoose.connection.db.collection(collectionName).insertMany(docs, function () {
     });
 }
 
