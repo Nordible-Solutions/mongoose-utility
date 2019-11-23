@@ -1,12 +1,12 @@
 {
   "name": "mongodb-utility",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Utility functions for MongoDB Atlas with Node.js Typescript setup",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "git push && tsc",
+    "prepublish": "tsc && git push",
     "dev": "tsc && node dist/index.js"
   },
   "repository": {
