@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc",
+    "publish": "git push && npm publish",
     "dev": "tsc && node dist/index.js"
   },
   "repository": {
