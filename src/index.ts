@@ -62,7 +62,7 @@ export const getAllDocs = (collection: Collection, enableLogging = false) => {
     collection.find(function (err: any, docs: any) {
         if (err) {
             enableLogging && console.log(`An error occured while getting all document from collection ${collection} 
-            Error stack: ${err} ${copyright}`);
+            ${err} ${copyright}`);
             return null;
         }
         enableLogging && console.log(`Documents fetched from ${collection} are ${docs} ${copyright}`);
@@ -83,7 +83,7 @@ export const dropCollection = (collection: string, enableLogging = false) => {
         })
         .catch((err: any) => {
             enableLogging && console.log(`An error occured while dropping collection ${collection} 
-            Error stack: ${err} ${copyright}`);
+            ${err} ${copyright}`);
             return false;
         });
 }
@@ -97,4 +97,25 @@ export const dropCollection = (collection: string, enableLogging = false) => {
 export const insertMany = (collection: Collection, docs: any, enableLogging = false) => {
     collection.insertMany(docs, function () {
     });
+}
+
+/**
+ * Gives the model of the specific schema with the specified name
+ * @param modelName The name of the model (generally same as the name of the resultant collection)
+ * @param modelSchema The schema of the model
+ * @param enableLogging flag for enabling/disabling logging
+ */
+export const getCompiledModel = (modelName: string, modelSchema: mongoose.Schema<any>, enableLogging = false) => {
+    let compiledModel: mongoose.Model<mongoose.Document, {}>;
+    try {
+        compiledModel = mongoose.model(modelName, modelSchema);
+        enableLogging && console.log(`${modelName} successfully compiled. ${copyright}`);
+    }
+    catch (err) {
+        compiledModel = mongoose.models[modelName];
+        enableLogging && console.log(`An error occured while compiling model for ${modelName} 
+        ${err} ${copyright}`);
+    }
+
+    return compiledModel;
 }

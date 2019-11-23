@@ -29,6 +29,12 @@ Insert many documents to MongoDb instance
 - *@param* `docs` The documents which needs to be inserted
 - *@param* `enableLogging` flag for enabling/disabling logging
 
+**getCompiledModel()**
+Gives the model of the specific schema with the specified name
+- *@param* `modelName` The name of the model (generally same as the name of the resultant collection)
+- *@param* `modelSchema` The schema of the model
+- *@param* `enableLogging` flag for enabling/disabling logging
+
 ## Contributions welcome!
 
 [Open a new PR](https://github.com/nordible/mongodb-utility/pulls) here on GitHub.
