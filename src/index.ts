@@ -24,7 +24,11 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
     if (mongooseInstance.connection && mongooseInstance.connection.readyState === 1) {
         enableLogging && console.log(`Mongoose already connected ${copyright}`);
     } else {
-        mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+        if(mongooseInstance.createConnection){
+            mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+        } else {
+            mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
+        }
 
         mongooseInstance.connection.on('open', function () {
             enableLogging && console.log(`Mongoose default connection open ${copyright}`);
