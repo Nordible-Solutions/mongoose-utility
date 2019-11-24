@@ -1,6 +1,7 @@
-import { Collection, Schema, Model, Document } from 'mongoose';
+import { Collection, Schema, Model, Document, Connection } from 'mongoose';
 const mongooseInstance = require("mongoose");
 
+let existingConnection: Connection;
 export const generateConnectionString = () => {
     const {
         MONGO_USER,
@@ -15,35 +16,34 @@ const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
 
 /**
  * Connect to the MongoDB database
- * @param mongooseInstance mongoose instance to connect to TODO: remove from everywhere
+ * @param connection mongoose connection instance (pass if exists to reuse existing open connection)
  * @param enableLogging flag for enabling/disabling logging
  */
-export const connectToTheDatabase = (enableLogging = false) => {
-    let connection;
+export const connectToTheDatabase = (connectionToReuse = null, enableLogging = false) => {
 
     try {
         let connString = generateConnectionString();
 
         //connect to mongoose
         if (mongooseInstance.createConnection) {
-            connection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+            existingConnection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
         } else {
-            connection = mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
+            existingConnection = mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
         }
 
-        connection.on('open', function () {
+        existingConnection.on('open', function () {
             enableLogging && console.log(`Mongoose default connection open ${copyright}`);
         })
 
-        connection.on('connected', function () {
+        existingConnection.on('connected', function () {
             enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
         })
 
-        connection.on('error', function (err: any) {
+        existingConnection.on('error', function (err: any) {
             console.log(`Mongoose default connection error: ${err} ${copyright}`);
         })
 
-        connection.on('disconnected', function () {
+        existingConnection.on('disconnected', function () {
             console.log(`Mongoose default connection disconnected ${copyright}`);
         })
         process.on('SIGINT', function () {
@@ -60,7 +60,9 @@ export const connectToTheDatabase = (enableLogging = false) => {
         Info: ${err} ${copyright}`)
         }
     }
-    return connection;
+}
+
+return existingConnection;
 }
 
 /**
@@ -71,7 +73,9 @@ export const connectToTheDatabase = (enableLogging = false) => {
  */
 export const getAllDocs = (mongooseInstance: any, collectionName: string, enableLogging = false): Promise<any> => {
     return new Promise(() => {
-        mongooseInstance.collection(collectionName).find(function (err: any, docs: any) {
+        existingConnection = connectToTheDatabase(existingConnection, enableLogging); //TODO: access flag from node env
+
+        existingConnection.collection(collectionName).find(function (err: any, docs: any) {
             if (err) {
                 enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
                 ${err} ${copyright}`);
