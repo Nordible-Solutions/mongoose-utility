@@ -21,7 +21,6 @@ const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
 export const connectToTheDatabase = (mongooseInstance: any, enableLogging = false) => {
 
     let connString = generateConnectionString();
-    console.log('mongooseInstance', mongooseInstance);
     if (mongooseInstance.connection && mongooseInstance.connection.readyState === 1) {
         enableLogging && console.log(`Mongoose already connected ${copyright}`);
     } else {
