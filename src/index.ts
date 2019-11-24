@@ -1,5 +1,5 @@
-import { Collection, Schema, Model } from 'mongoose';
-import * as mongoose from 'mongoose';
+import { Collection, Schema, Model, Document } from 'mongoose';
+const mongooseInstance = require("mongoose");
 
 export const generateConnectionString = () => {
     const {
@@ -15,15 +15,15 @@ const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
 
 /**
  * Connect to the MongoDB database
- * @param mongooseInstance mongoose instance to connect to
+ * @param mongooseInstance mongoose instance to connect to TODO: remove from everywhere
  * @param enableLogging flag for enabling/disabling logging
  */
-export const connectToTheDatabase = (mongooseInstance: any, enableLogging = false) => {
+export const connectToTheDatabase = (enableLogging = false) => {
+    let connection;
 
     try {
         let connString = generateConnectionString();
 
-        let connection;
         //connect to mongoose
         if (mongooseInstance.createConnection) {
             connection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
@@ -58,9 +58,9 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
         if (enableLogging) {
             console.log(`An error occured while connecting to MongoDB
         Info: ${err} ${copyright}`)
-        };
+        }
     }
-    return mongooseInstance.connection;
+    return connection;
 }
 
 /**
@@ -90,7 +90,7 @@ export const getAllDocs = (mongooseInstance: any, collectionName: string, enable
  * @param enableLogging flag for enabling/disabling logging
  */
 export const dropcollection = (collectionName: string, enableLogging = false) => {
-    mongoose.connection.db.dropCollection(collectionName)
+    mongooseInstance.connection.db.dropCollection(collectionName)
         .then((dropResult: any) => {
             enableLogging && console.log(`${collectionName} successfully dropped. Info: ${dropResult} ${copyright}`);
             return true;
@@ -109,7 +109,7 @@ export const dropcollection = (collectionName: string, enableLogging = false) =>
  * @param enableLogging flag for enabling/disabling logging
  */
 export const insertMany = (collectionName: string, docs: any, enableLogging = false) => {
-    mongoose.connection.db.collection(collectionName).insertMany(docs, function () {
+    mongooseInstance.connection.db.collection(collectionName).insertMany(docs, function () {
     });
 }
 
@@ -121,13 +121,13 @@ export const insertMany = (collectionName: string, docs: any, enableLogging = fa
  */
 export const getCompiledModel = (modelName: string, schemaJSON: Object, enableLogging = false) => {
     let modelSchema = new Schema({ schemaJSON });
-    let compiledModel: Model<mongoose.Document, {}>;
+    let compiledModel: Model<Document, {}>;
     try {
-        compiledModel = mongoose.model(modelName, modelSchema);
+        compiledModel = mongooseInstance.model(modelName, modelSchema);
         enableLogging && console.log(`${modelName} successfully compiled. ${copyright}`);
     }
     catch (err) {
-        compiledModel = mongoose.models[modelName];
+        compiledModel = mongooseInstance.models[modelName];
         enableLogging && console.log(`An error occured while compiling model for ${modelName} 
         ${err} ${copyright}`);
     }
