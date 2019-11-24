@@ -23,38 +23,36 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
     try {
         let connString = generateConnectionString();
 
-        if (mongooseInstance.connection && mongooseInstance.connection.readyState === 1) {
-            enableLogging && console.log(`Mongoose already connected ${copyright}`);
+        let connection;
+        //connect to mongoose
+        if (mongooseInstance.createConnection) {
+            connection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
         } else {
-            if (mongooseInstance.createConnection) {
-                mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
-            } else if (mongooseInstance.connect) {
-                mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
-            }
-
-            mongooseInstance.connection.on('open', function () {
-                enableLogging && console.log(`Mongoose default connection open ${copyright}`);
-            })
-
-            mongooseInstance.connection.on('connected', function () {
-                enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
-            })
-
-            mongooseInstance.connection.on('error', function (err: any) {
-                enableLogging && console.log(`Mongoose default connection error: ${err} ${copyright}`);
-            })
-
-            mongooseInstance.connection.on('disconnected', function () {
-                enableLogging && console.log(`Mongoose default connection disconnected ${copyright}`);
-            })
-
-            process.on('SIGINT', function () {
-                mongooseInstance.connection.close(function () {
-                    enableLogging && console.log(`Mongoose default connection closed through app termination ${copyright}`);
-                    process.exit(0);
-                })
-            });
+            connection = mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
         }
+
+        connection.on('open', function () {
+            console.log(`Mongoose default connection open ${copyright}`);
+        })
+
+        connection.on('connected', function () {
+            console.log(`Mongoose default connection connected ${copyright}`);
+        })
+
+        connection.on('error', function (err: any) {
+            console.log(`Mongoose default connection error: ${err} ${copyright}`);
+        })
+
+        connection.on('disconnected', function () {
+            console.log(`Mongoose default connection disconnected ${copyright}`);
+        })
+        process.on('SIGINT', function () {
+            mongooseInstance.connection.close(function () {
+                console.log(`Mongoose default connection closed through app termination ${copyright}`);
+                process.exit(0);
+            })
+        });
+
     }
     catch (err) {
         if (enableLogging) {
