@@ -32,11 +32,11 @@ export const connectToTheDatabase = (mongooseInstance: any, enableLogging = fals
         }
 
         connection.on('open', function () {
-            console.log(`Mongoose default connection open ${copyright}`);
+            enableLogging && console.log(`Mongoose default connection open ${copyright}`);
         })
 
         connection.on('connected', function () {
-            console.log(`Mongoose default connection connected ${copyright}`);
+            enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
         })
 
         connection.on('error', function (err: any) {
