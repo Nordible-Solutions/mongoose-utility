@@ -20,40 +20,48 @@ const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
  */
 export const connectToTheDatabase = (mongooseInstance: any, enableLogging = false) => {
 
-    let connString = generateConnectionString();
-    if (mongooseInstance.connection && mongooseInstance.connection.readyState === 1) {
-        enableLogging && console.log(`Mongoose already connected ${copyright}`);
-    } else {
-        if(mongooseInstance.createConnection){
-            mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+    try {
+        let connString = generateConnectionString();
+
+        if (mongooseInstance.connection && mongooseInstance.connection.readyState === 1) {
+            enableLogging && console.log(`Mongoose already connected ${copyright}`);
         } else {
-            mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
-        }
+            if (mongooseInstance.createConnection) {
+                mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+            } else if (mongooseInstance.connect) {
+                mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
+            }
 
-        mongooseInstance.connection.on('open', function () {
-            enableLogging && console.log(`Mongoose default connection open ${copyright}`);
-        })
-
-        mongooseInstance.connection.on('connected', function () {
-            enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
-        })
-
-        mongooseInstance.connection.on('error', function (err: any) {
-            enableLogging && console.log(`Mongoose default connection error: ${err} ${copyright}`);
-        })
-
-        mongooseInstance.connection.on('disconnected', function () {
-            enableLogging && console.log(`Mongoose default connection disconnected ${copyright}`);
-        })
-
-        process.on('SIGINT', function () {
-            mongooseInstance.connection.close(function () {
-                enableLogging && console.log(`Mongoose default connection closed through app termination ${copyright}`);
-                process.exit(0);
+            mongooseInstance.connection.on('open', function () {
+                enableLogging && console.log(`Mongoose default connection open ${copyright}`);
             })
-        });
-    }
 
+            mongooseInstance.connection.on('connected', function () {
+                enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
+            })
+
+            mongooseInstance.connection.on('error', function (err: any) {
+                enableLogging && console.log(`Mongoose default connection error: ${err} ${copyright}`);
+            })
+
+            mongooseInstance.connection.on('disconnected', function () {
+                enableLogging && console.log(`Mongoose default connection disconnected ${copyright}`);
+            })
+
+            process.on('SIGINT', function () {
+                mongooseInstance.connection.close(function () {
+                    enableLogging && console.log(`Mongoose default connection closed through app termination ${copyright}`);
+                    process.exit(0);
+                })
+            });
+        }
+    }
+    catch (err) {
+        if (enableLogging) {
+            console.log(`An error occured while connecting to MongoDB
+        Info: ${err} ${copyright}`)
+        };
+    }
     return mongooseInstance.connection;
 }
 
