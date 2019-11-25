@@ -82,7 +82,7 @@ export const connectToTheDatabase = (connectionToReuse: Connection | null, enabl
  * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs = (collectionName: string, enableLogging = false) => {
+export const getAllDocs = (collectionName: string, enableLogging = false): any => {
     existingConnection = connectToTheDatabase(existingConnection, enableLogging); //TODO: access flag from node env
 
     existingConnection.collection(collectionName).find(function (err: any, docs: any) {
