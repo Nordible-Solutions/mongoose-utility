@@ -21,9 +21,9 @@ const copyright = ` - mongoose-utility by \u00A9 nordible https://nordible.com/`
  * @param connection mongoose connection instance (pass if exists to reuse existing open connection)
  * @param enableLogging flag for enabling/disabling logging
  */
-export const connectToTheDatabase = (connectionToReuse: Connection | null, enableLogging = false): Connection => {
+export const connectToTheDatabase = (connectionToReuse: Connection | null = null, enableLogging = false): Connection => {
 
-    if (connectionToReuse && connectionToReuse.readyState === 1) {
+    if (connectionToReuse != null && connectionToReuse.readyState === 1) {
         enableLogging && console.log(`Reusing existing Mongoose connection ${copyright}`);
 
         return connectionToReuse;
@@ -82,7 +82,7 @@ export const connectToTheDatabase = (connectionToReuse: Connection | null, enabl
  * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs =async (collectionName: string, enableLogging = false): any => {
+export const getAllDocs = async (collectionName: string, enableLogging = false) => {
     existingConnection = connectToTheDatabase(existingConnection, enableLogging); //TODO: access flag from node env
 
     existingConnection.collection(collectionName).find(function (err: any, docs: any) {
