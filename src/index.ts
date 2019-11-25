@@ -79,23 +79,20 @@ export const connectToTheDatabase = (connectionToReuse: Connection | null, enabl
 
 /**
  * Get all the documents in a collection
- * @param mongooseInstance mongoose instance to connect to
  * @param collectionName name of the collection
  * @param enableLogging flag for enabling/disabling logging
  */
-export const getAllDocs = (mongooseInstance: any, collectionName: string, enableLogging = false): Promise<any> => {
-    return new Promise(() => {
-        existingConnection = connectToTheDatabase(existingConnection, enableLogging); //TODO: access flag from node env
+export const getAllDocs = (collectionName: string, enableLogging = false) => {
+    existingConnection = connectToTheDatabase(existingConnection, enableLogging); //TODO: access flag from node env
 
-        existingConnection.collection(collectionName).find(function (err: any, docs: any) {
-            if (err) {
-                enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
+    existingConnection.collection(collectionName).find(function (err: any, docs: any) {
+        if (err) {
+            enableLogging && console.log(`An error occured while getting all document from collection ${collectionName} 
                 ${err} ${copyright}`);
-                return null;
-            }
-            enableLogging && console.log(`Documents fetched from ${collectionName} are ${docs} ${copyright}`);
-            return docs;
-        });
+            return null;
+        }
+        enableLogging && console.log(`Documents fetched from ${collectionName} are ${docs} ${copyright}`);
+        return docs;
 
     });
 }
