@@ -12,58 +12,71 @@ export const generateConnectionString = () => {
     return `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`;
 }
 
-const copyright = "\mogodb-utility by \u00A9 nordible https://nordible.com/";
+console.log(`${process.env.npm_package_name} is working!
+\u00A9 nordible https://nordible.com`);
+
+const copyright = `\${process.env.npm_package_name} by \u00A9 nordible https://nordible.com/`;
 
 /**
  * Connect to the MongoDB database
  * @param connection mongoose connection instance (pass if exists to reuse existing open connection)
  * @param enableLogging flag for enabling/disabling logging
  */
-export const connectToTheDatabase = (connectionToReuse = null, enableLogging = false) => {
+export const connectToTheDatabase = (connectionToReuse: Connection | null, enableLogging = false): Connection => {
 
-    try {
-        let connString = generateConnectionString();
+    if (connectionToReuse && connectionToReuse.readyState === 1) {
+        enableLogging && console.log(`Reusing existing Mongoose connection ${copyright}`);
 
-        //connect to mongoose
-        if (mongooseInstance.createConnection) {
-            existingConnection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
-        } else {
-            existingConnection = mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
-        }
+        return connectionToReuse;
+    }
 
-        existingConnection.on('open', function () {
-            enableLogging && console.log(`Mongoose default connection open ${copyright}`);
-        })
+    else {
 
-        existingConnection.on('connected', function () {
-            enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
-        })
+        try {
+            let connString = generateConnectionString();
 
-        existingConnection.on('error', function (err: any) {
-            console.log(`Mongoose default connection error: ${err} ${copyright}`);
-        })
+            //connect to mongoose
+            if (mongooseInstance.createConnection) {
+                existingConnection = mongooseInstance.createConnection(connString, { useNewUrlParser: true, useCreateIndex: true })
+            } else {
+                existingConnection = mongooseInstance.connect(connString, { useNewUrlParser: true, useCreateIndex: true })
+            }
 
-        existingConnection.on('disconnected', function () {
-            console.log(`Mongoose default connection disconnected ${copyright}`);
-        })
-        process.on('SIGINT', function () {
-            mongooseInstance.connection.close(function () {
-                console.log(`Mongoose default connection closed through app termination ${copyright}`);
-                process.exit(0);
+            existingConnection.on('open', function () {
+                enableLogging && console.log(`Mongoose default connection open ${copyright}`);
             })
-        });
 
-    }
-    catch (err) {
-        if (enableLogging) {
-            console.log(`An error occured while connecting to MongoDB
-        Info: ${err} ${copyright}`)
+            existingConnection.on('connected', function () {
+                enableLogging && console.log(`Mongoose default connection connected ${copyright}`);
+            })
+
+            existingConnection.on('error', function (err: any) {
+                console.log(`Mongoose default connection error: ${err} ${copyright}`);
+            })
+
+            existingConnection.on('disconnected', function () {
+                console.log(`Mongoose default connection disconnected ${copyright}`);
+            })
+            process.on('SIGINT', function () {
+                mongooseInstance.connection.close(function () {
+                    console.log(`Mongoose default connection closed through app termination ${copyright}`);
+                    process.exit(0);
+                })
+            });
+
         }
+        catch (err) {
+            if (enableLogging) {
+                console.log(`An error occured while connecting to MongoDB
+            Info: ${err} ${copyright}`)
+            }
+        }
+
+        return existingConnection;
     }
+
 }
 
-return existingConnection;
-}
 
 /**
  * Get all the documents in a collection

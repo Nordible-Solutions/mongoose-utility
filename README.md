@@ -1,8 +1,8 @@
-Utility functions for MongoDB Atlas with Node.js Typescript setup
+Utility functions for MongoDB Atlas with Mongoose Node.js Typescript setup
 
 ## Installation
  
- - Install in your project using `npm i mongodb-utility`
+ - Install in your project using `npm i mongoose-utility`
 
 ## Available functions / API
 
@@ -38,16 +38,16 @@ Gives the model of the specific schema with the specified name
 
 ## Contributions welcome!
 
-[Open a new PR](https://github.com/nordible/mongodb-utility/pulls) here on GitHub.
+[Open a new PR](https://github.com/nordible/mongoose-utility/pulls) here on GitHub.
 
 ## Run locally
-- Run `git clone https://github.com/nordible/mongodb-utility.git` this project
-- Run `cd mongodb-utility/` to this project
+- Run `git clone https://github.com/nordible/mongoose-utility.git` this project
+- Run `cd mongoose-utility/` to this project
 - Run `npm run dev` to start the project on local machine
 
 ## Bugs and Issues
 
-Have a bug or an issue? [Open a new issue](https://github.com/nordible/mongodb-utility/issues) here on GitHub.
+Have a bug or an issue? [Open a new issue](https://github.com/nordible/mongoose-utility/issues) here on GitHub.
 
 ## License
 

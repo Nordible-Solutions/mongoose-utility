@@ -1,7 +1,7 @@
 {
-  "name": "mongodb-utility",
-  "version": "1.0.30",
-  "description": "Utility functions for MongoDB Atlas with Node.js Typescript setup",
+  "name": "mongoose-utility",
+  "version": "1.0.0",
+  "description": "Utility functions for MongoDB Atlas with Mongoose Node.js Typescript setup",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nordible/mongodb-utility.git"
+    "url": "git+https://github.com/nordible/mongoose-utility.git"
   },
   "dependencies": {
     "@types/mongoose": "^5.5.28",
@@ -22,16 +22,16 @@
   "keywords": [
     "javascript",
     "typescript",
-    "mongodb",
+    "moongose",
     "mongodb atlas",
     "utility"
   ],
   "author": "Nordible <info@nordible.com> (https://nordible.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nordible/mongodb-utility/issues"
+    "url": "https://github.com/nordible/mongoose-utility/issues"
   },
-  "homepage": "https://nordible.com/mongodb-utility/",
+  "homepage": "https://nordible.com/mongoose-utility/",
   "files": [
     "dist/*"
   ]
