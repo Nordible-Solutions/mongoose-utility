@@ -12,8 +12,7 @@ export const generateConnectionString = () => {
     return `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`;
 }
 
-console.log(`${process.env.npm_package_name} is working!
-\u00A9 nordible https://nordible.com`);
+console.log(`mongoose-utility is working! \u00A9 nordible https://nordible.com`);
 
 const copyright = `\n${process.env.npm_package_name} by \u00A9 nordible https://nordible.com/`;
 
