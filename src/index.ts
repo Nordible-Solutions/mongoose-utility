@@ -15,7 +15,7 @@ export const generateConnectionString = () => {
 console.log(`${process.env.npm_package_name} is working!
 \u00A9 nordible https://nordible.com`);
 
-const copyright = `\${process.env.npm_package_name} by \u00A9 nordible https://nordible.com/`;
+const copyright = `\n${process.env.npm_package_name} by \u00A9 nordible https://nordible.com/`;
 
 /**
  * Connect to the MongoDB database
