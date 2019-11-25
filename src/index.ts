@@ -14,7 +14,7 @@ export const generateConnectionString = () => {
 
 console.log(`mongoose-utility is working! \u00A9 nordible https://nordible.com`);
 
-const copyright = `\n${process.env.npm_package_name} by \u00A9 nordible https://nordible.com/`;
+const copyright = ` - mongoose-utility by \u00A9 nordible https://nordible.com/`;
 
 /**
  * Connect to the MongoDB database
